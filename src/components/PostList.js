@@ -19,8 +19,10 @@ const PostList = () => {
         posts.map((post) => (
           <div key={post.id} className="post-item">
             <h3>{post.title}</h3>
-            {post.imageUrl && <img src={post.imageUrl} alt={post.title} style={{ width: '100%', height: 'auto' }} />}
-            <p>{post.content}</p>
+            {post.thumbnail && post.thumbnail !== 'self' && post.thumbnail !== 'default' && (
+              <img src={post.thumbnail} alt={post.title} style={{ width: '100%', height: 'auto' }} />
+            )}
+            <p>{post.selftext}</p>
           </div>
         ))
       ) : (
