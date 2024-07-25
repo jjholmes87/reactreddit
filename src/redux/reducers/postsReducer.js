@@ -1,14 +1,13 @@
-// src/redux/reducers/postsReducer.js
 import {
     FETCH_POSTS_REQUEST,
     FETCH_POSTS_SUCCESS,
-    FETCH_POSTS_FAILURE,
+    FETCH_POSTS_FAILURE
   } from '../actions/postsActions';
   
   const initialState = {
+    posts: [],  // Default to an empty array
     loading: false,
-    posts: [],
-    error: null,
+    error: null
   };
   
   const postsReducer = (state = initialState, action) => {
@@ -16,7 +15,7 @@ import {
       case FETCH_POSTS_REQUEST:
         return { ...state, loading: true, error: null };
       case FETCH_POSTS_SUCCESS:
-        return { ...state, loading: false, posts: action.payload };
+        return { ...state, loading: false, posts: action.payload }; // Ensure payload is set
       case FETCH_POSTS_FAILURE:
         return { ...state, loading: false, error: action.payload };
       default:

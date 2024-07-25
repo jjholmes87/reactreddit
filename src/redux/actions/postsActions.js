@@ -1,23 +1,17 @@
+import { fetchPosts as fetchPostsFromAPI } from '../../api';
+
 export const FETCH_POSTS_REQUEST = 'FETCH_POSTS_REQUEST';
 export const FETCH_POSTS_SUCCESS = 'FETCH_POSTS_SUCCESS';
 export const FETCH_POSTS_FAILURE = 'FETCH_POSTS_FAILURE';
 
-export const fetchPostsRequest = () => ({ type: FETCH_POSTS_REQUEST });
-export const fetchPostsSuccess = (posts) => ({ type: FETCH_POSTS_SUCCESS, payload: posts });
-export const fetchPostsFailure = (error) => ({ type: FETCH_POSTS_FAILURE, payload: error });
+export const fetchPosts = () => async (dispatch) => {
+  dispatch({ type: FETCH_POSTS_REQUEST });
 
-const fetchPosts = async (query) => {
-  const response = await fetch(`https://www.reddit.com/search.json?q=${query}`);
-  const data = await response.json();
-  return data.data.children.map(child => child.data);
-};
-
-export const loadPosts = (query) => async (dispatch) => {
-  dispatch(fetchPostsRequest());
   try {
-    const posts = await fetchPosts(query);
-    dispatch(fetchPostsSuccess(posts));
+    const posts = await fetchPostsFromAPI();
+    console.log('Fetched posts:', posts); // Log the fetched posts
+    dispatch({ type: FETCH_POSTS_SUCCESS, payload: posts });
   } catch (error) {
-    dispatch(fetchPostsFailure(error.message));
+    dispatch({ type: FETCH_POSTS_FAILURE, payload: error.message });
   }
 };
